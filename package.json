@@ -1,0 +1,23 @@
+{
+    "name": "Trabalho",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "nodemon index --exec babel-node",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "devDependencies": {
+        "nodemon": "^1.18.4",
+        "@babel/core": "^7.1.2",
+        "@babel/node": "^7.0.0",
+        "@babel/preset-env": "^7.1.0",
+        "eslint": "^5.7.0"
+    },
+    "dependencies": {
+        "lodash": "^4.17.11"
+    }
+}
