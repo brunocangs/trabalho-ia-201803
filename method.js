@@ -15,9 +15,9 @@ export default class Method {
     isSolved (array) {
         const solution = [1,0,0,1]; 
         const current = array.filter(item => item !== null);
-        return solution.length === current.length && this.arrayIsEqual(solution, current);
+        return this.arrayIsEqual(solution, current);
     }
     arrayIsEqual(first, second) {
-        return first.every((item, index) => item === second[index]);
+        return first.length === second.length && first.every((item, index) => item === second[index]);
     }
 }
