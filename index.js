@@ -103,3 +103,11 @@ function swap (array, posA, posB) {
 const a = new Methods.Backtracking(array, ops);
 a.exec();
 console.log(a.stats);
+
+const b = new Methods.DepthSearch(array, ops);
+b.exec();
+console.log(b.stats);
+
+const c = new Methods.WidthSearch(array, ops);
+c.exec();
+console.log(c.stats);

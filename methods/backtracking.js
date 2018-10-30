@@ -9,6 +9,7 @@ export default class Backtracking extends Method {
         this.path = this.doBacktrack(solution);
         const end = new Date();
         this.time = end - start;
+        this.cost = this.depth = this.path.length;
     }
     doBacktrack (array) {
         const top = array.slice(-1)[0]; // Ultimo elemento

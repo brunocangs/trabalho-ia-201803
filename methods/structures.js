@@ -1,24 +1,48 @@
 class Queue {
-    constructor() {
-        this.array = [];
+    constructor(array) {
+        this.array = array || [];
     }
     add (item) {
-        this.array.push(item);
+        return this.array.push(item);
     }
     remove () {
-        this.array.shift();
+        return this.array.shift();
+    }
+    at (index) {
+        return this.array[index];
+    }
+    get findIndex() {
+        return this.array.findIndex;
+    }
+    get top () {
+        return this.array[0];
+    }
+    get isEmpty () {
+        return this.array.length === 0;
     }
 }
 
 class Pile {
-    constructor() {
-        this.array = [];
+    constructor(array) {
+        this.array = array || [];
     }
     add (item) {
-        this.array.unshift(item);
+        return this.array.unshift(item);
     }
     remove () {
-        this.array.shift();
+        return this.array.shift();
+    }
+    at (index) {
+        return this.array[index];
+    }
+    get findIndex() {
+        return this.array.findIndex;
+    }
+    get top () {
+        return this.array[0];
+    }
+    get isEmpty () {
+        return this.array.length === 0;
     }
 }
 
