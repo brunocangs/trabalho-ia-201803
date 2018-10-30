@@ -20,4 +20,14 @@ export default class Method {
     arrayIsEqual(first, second) {
         return first.length === second.length && first.every((item, index) => item === second[index]);
     }
+    get stats () {
+        return {
+            time: this.time,
+            cost: this.cost,
+            visitedTotal: this.visitedTotal,
+            expandedTotal: this.expandedTotal,
+            depth: this.depth,
+            path: this.path
+        };
+    }
 }

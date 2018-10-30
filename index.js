@@ -1,11 +1,13 @@
 process._debugProcess(process.pid);
-import Backtracking from './backtracking';
+import * as Methods from './methods';
 import clone from 'lodash/clone';
+require('./methods/depthSearch');
 
 // 0 => Bolinha brancas
 // 1 => Bolinha preta
 // null => espaço vazio
 let array = [0, 0, null, 1, 1];
+
 /**
  * Objetivo do algoritmo é atingir uma forma tal que as bolas pretas estejam entre as bolas brancas
  * Formas válidas:
@@ -98,5 +100,6 @@ function swap (array, posA, posB) {
     return nArray;
 }
 
-const a = new Backtracking(array, ops);
+const a = new Methods.Backtracking(array, ops);
 a.exec();
+console.log(a.stats);
