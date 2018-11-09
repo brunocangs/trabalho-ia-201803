@@ -1,113 +1,47 @@
-process._debugProcess(process.pid);
 import * as Methods from './methods';
-import clone from 'lodash/clone';
-require('./methods/depthSearch');
 
 // 0 => Bolinha brancas
 // 1 => Bolinha preta
 // null => espaço vazio
-let array = [0, 0, null, 1, 1];
+// [0, 0, null, 1, 1]
 
 /**
- * Objetivo do algoritmo é atingir uma forma tal que as bolas pretas estejam entre as bolas brancas
- * Formas válidas:
- * [1,0,0,1,null]
- * [1,0,0,null,1]
- * [1,0,null,0,1]
- * [1,null,0,0,1]
- * [null,1,0,0,1]
+ * Objetivo do algoritmo é atingir uma forma tal que as bolas pretas estejam envolvendo as bolas brancas
  */
 
-/**
- * Operadores:
- * Definidos como uma função que recebe um vetor e retorna o vetor resultante após aplicar a operação
- * Operação só é aplicada se movimento for possível
- */
+const solutionWhiteBetweenBlack = (array) => {
+    const filtered = array.filter(item => item !== null);
+    //     Começa com 1      && Termina com 1 => [1,...,1] => Pretas envolvendo brancas
+    return filtered[0] === 1 && filtered[filtered.length - 1] === 1;
+};
 
-const ops = [
-    // Primeiro operador: Bola preta anda para a esquerda
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition + 1] === 1) { // Se temos [..., null, 1, ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition + 1);
-        }
-        return array;
-    },
-    // Segundo operador: Bola branca salta para a direita
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition - 2] === 0) { // Se temos [..., 0, X, null, ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition - 2);
-        }
-        return array;
-    },
-    // Terceiro operador: Bola branca anda para a direita
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition - 1] === 0) { // Se temos [..., 0, null, ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition - 1);
-        }
-        return array;
-    },
-    // Quarto operador: Bola preta salta para a esquerda
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition + 2] === 1) { // Se temos [..., null, X, 1, ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition + 2);
-        }
-        return array;
-    },
-    // Quinto operador: Bola preta anda para a direita
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition - 1] === 1) { // Se temos [..., 1, null, ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition - 1);
-        }
-        return array;
-    },
-    // Sexto operador: Bola branca salta para a esquerda
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition + 2] === 0) { // Se temos [..., null, X, 0 ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition + 2);
-        }
-        return array;
-    },
-    // Sétimo operador: Bola branca anda para a esquerda
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition + 1] === 0) { // Se temos [..., null, 0 ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition + 1);
-        }
-        return array;
-    },
-    // Oitavo operador: Bola preta salta para a direita
-    (array) => {
-        const nullPosition = array.indexOf(null);
-        if (array[nullPosition - 2] === 1) { // Se temos [..., 1, X, null ...] podemos executar.
-            array = swap(array, nullPosition, nullPosition - 2);
-        }
-        return array;
+const solutionSwapAll = (array) => {
+    const half = Math.floor(array.length / 2);
+    for (let index = 0; index < array.length; index++) {
+        if (index < half && array[index] === 0) return false;
+        if (index > half && array[index] === 1) return false;
+        if (index === half && array[index] !== null) return false;
     }
-];
+    return true;
+    // return array.every((item, index, nArray) => {
+    //     const half = Math.floor(nArray.length / 2);
+    //     //     Inicio com 1                 Final com 0                    Nulo no meio => Inversão completa
+    //     return index < half && item === 1 || index > half && item === 0 || index === half + 1 || item === null; 
+    // });
+};
 
-// Funções auxiliares
-function swap (array, posA, posB) {
-    let nArray = clone(array);
-    const aux = nArray[posA];
-    nArray[posA] = nArray[posB];
-    nArray[posB] = aux;
-    return nArray;
-}
+// const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
+// a.exec();
+// console.log(a.stats);
 
-const a = new Methods.Backtracking(array, ops);
-a.exec();
-console.log(a.stats);
+// const b = new Methods.Backtracking(7, solutionSwapAll);
+// b.exec();
+// console.log(b.stats, b.stats.path.slice(-1)[0]);
 
-const b = new Methods.DepthSearch(array, ops);
-b.exec();
-console.log(b.stats);
-
-const c = new Methods.WidthSearch(array, ops);
+const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
 c.exec();
 console.log(c.stats);
+
+const d = new Methods.WidthSearch(7, solutionSwapAll);
+d.exec();
+console.log(d.stats);

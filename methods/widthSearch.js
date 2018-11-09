@@ -6,7 +6,7 @@ class WidthSearch extends Method {
         const start = new Date();
         this.path = this.doSearch();
         this.time = new Date() - start;
-        this.cost = this.depth = this.path.length;
+        this.cost = this.depth = (this.path || []).length;
     }
     doSearch() {
         const open = new Queue();
@@ -24,8 +24,9 @@ class WidthSearch extends Method {
                 let n = open.remove(); // Remove primeiro da pilha
                 this.visitedTotal++; // Conta como nova visita
                 // Para todos os operadores
-                for (let operator of this.operators.reverse()) { // Inverte o vetor para que operador[0] seja o topo da pilha e 
-                    const next = operator(n.state); // Gera próximo estado
+                const nullPosition = n.state.indexOf(null);
+                for (let index of [-1, -2, 2, 1].reverse()) { // Inverte o vetor para que operador[0] seja o topo da pilha e 
+                    const next = this.swap(n.state, nullPosition + index, nullPosition); // Gera próximo estado
                     if(this.isSolved(next)) { // Checa se estado gerado é solução. Diminui um pouco eficiencia pois checa para todos expandidos, nao somente para visitados
                         this.visitedTotal++; // Se resolvido, conta mais um visitado
                         return n.path.concat([next]); // Retorna caminho até o nó, contando com o de solução

@@ -1,24 +1,43 @@
+import clone from 'lodash/clone';
+
 export default class Method {
-    constructor(array, operators) {
+    constructor (size, solutionFunction) {
+        // Ajusta tamanho caso seja impar
+        if (!(size % 2)) size = size - 1;
+        // Ajusta tamanho caso seja menor que 5
+        if (size < 5) size = 5;
+        this.size = size;
         this.path = [];
         this.depth = 0;
         this.cost = 0;
         this.visitedTotal = 0;
         this.expandedTotal = 0;
-        this.array = array;
         this.time = 0;
-        this.operators = operators;
+        this.isSolved = solutionFunction;
+        const half = Math.floor(size / 2);
+        this.array = [...new Array(size)].map((item, index) => {
+            if (index < half) {
+                return 0;
+            } else if (index > half) {
+                return 1;
+            } else {
+                return null;
+            }
+        });
     }
     exec () {
         console.log('Se você está vendo isso, você não sobrescreveu o método direito');
     }
-    isSolved (array) {
-        const solution = [1,0,0,1]; 
-        const current = array.filter(item => item !== null);
-        return this.arrayIsEqual(solution, current);
-    }
-    arrayIsEqual(first, second) {
-        return first.length === second.length && first.every((item, index) => item === second[index]);
+    arrayIsEqual (first, second) {
+        if(first && second && first.length === second.length) {
+            let allTrue = true;
+            for (let index in first) {
+                if (allTrue === false) break;
+                allTrue = first[index] === second[index];
+            }
+            return allTrue;
+        }
+        return false;
     }
     get stats () {
         return {
@@ -29,5 +48,13 @@ export default class Method {
             depth: this.depth,
             path: this.path
         };
+    }
+    swap (array, posA, posB) {
+        if (array[posA] === undefined || array[posB] === undefined) return array;
+        let nArray = clone(array);
+        const aux = nArray[posA];
+        nArray[posA] = nArray[posB];
+        nArray[posB] = aux;
+        return nArray;
     }
 }

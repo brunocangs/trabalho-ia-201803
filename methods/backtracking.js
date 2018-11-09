@@ -9,12 +9,13 @@ export default class Backtracking extends Method {
         this.path = this.doBacktrack(solution);
         const end = new Date();
         this.time = end - start;
-        this.cost = this.depth = this.path.length;
+        this.cost = this.depth = (this.path || []).length;
     }
     doBacktrack (array) {
         const top = array.slice(-1)[0]; // Ultimo elemento
-        for (let operator of this.operators) { // Para todos os operadores
-            const next = operator(top); // Gera o estado seguinte ao atual (ultima posição) com o operador
+        const nullPosition = top.indexOf(null);
+        for (let index of [-1, -2, 2, 1]) { // Para todos os operadores
+            const next = this.swap(top, nullPosition + index, nullPosition); // Gera o estado seguinte ao atual (ultima posição) com o operador
             // Todos os expandidos são visitados, não expande antes de visitar
             this.expandedTotal++;
             this.visitedTotal++;
