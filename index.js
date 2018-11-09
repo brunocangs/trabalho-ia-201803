@@ -30,18 +30,26 @@ const solutionSwapAll = (array) => {
     // });
 };
 
-// const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
-// a.exec();
-// console.log(a.stats);
+const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
+a.exec();
+console.log(a.stats);
 
-// const b = new Methods.Backtracking(7, solutionSwapAll);
-// b.exec();
-// console.log(b.stats, b.stats.path.slice(-1)[0]);
+const b = new Methods.Backtracking(7, solutionSwapAll);
+b.exec();
+console.log(b.stats);
 
 const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
 c.exec();
 console.log(c.stats);
 
-const d = new Methods.WidthSearch(7, solutionSwapAll);
+const d = new Methods.DepthSearch(7, solutionSwapAll);
 d.exec();
 console.log(d.stats);
+
+const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
+e.exec();
+console.log(e.stats);
+
+const f = new Methods.WidthSearch(7, solutionSwapAll);
+f.exec();
+console.log(f.stats);
