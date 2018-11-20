@@ -46,4 +46,22 @@ class Pile {
     }
 }
 
-export {Queue, Pile};
+class OrderedArray extends Array {
+    constructor(method) {
+        super();
+        Object.defineProperty(this, 'method', {
+            value: method,
+            enumerable: false
+        });
+    }
+    push(...items) {
+        for (let item of items) {
+            let index = -1;
+            while(this.method(this[++index], item));
+            this.splice(index, 0, item);
+        }
+        return this.length;
+    }
+}
+
+export {Queue, Pile, OrderedArray};

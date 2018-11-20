@@ -1,5 +1,6 @@
+process._debugProcess(process.pid);
 import * as Methods from './methods';
-
+import {OrderedArray} from './methods/structures';
 // 0 => Bolinha brancas
 // 1 => Bolinha preta
 // null => espaço vazio

@@ -9,12 +9,13 @@ class WidthSearch extends Method {
         this.cost = this.depth = (this.path || []).length;
     }
     doSearch() {
+        const hash = JSON.stringify;
         const open = new Queue();
-        const closed = [];
+        const closed = {};
         const start = this.array;
         open.add({
             state: start,
-            path: [start]
+            parent: undefined
         });
         let fail;
         while(!fail) { // Somente para evitar loop infinito
@@ -24,25 +25,33 @@ class WidthSearch extends Method {
                 let n = open.remove(); // Remove primeiro da pilha
                 this.visitedTotal++; // Conta como nova visita
                 // Para todos os operadores
-                const nullPosition = n.state.indexOf(null);
-                for (let index of [-1, -2, 2, 1].reverse()) { // Inverte o vetor para que operador[0] seja o topo da pilha e 
-                    const next = this.swap(n.state, nullPosition + index, nullPosition); // Gera próximo estado
+                if(hash(n.state) in closed) continue; // Se estado já está fechado nao expande
+                const nullPosition = n.state.indexOf(null); // Posição do nulo
+                for (let position of [-1, -2, 2, 1]) { // Itera pelo vetor de operadores: São considerados como as posições possiveis de mover em volta do nulo 
+                    const next = this.swap(n.state, nullPosition + position, nullPosition); // Gera próximo estado
                     if(this.isSolved(next)) { // Checa se estado gerado é solução. Diminui um pouco eficiencia pois checa para todos expandidos, nao somente para visitados
                         this.visitedTotal++; // Se resolvido, conta mais um visitado
-                        return n.path.concat([next]); // Retorna caminho até o nó, contando com o de solução
+                        let parent = n.state;
+                        let path = [parent, next];
+                        parent = n.parent;
+                        while(parent) {
+                            const found = closed[hash(parent)];
+                            path.unshift(found.state);
+                            parent = found.parent;
+                        }
+                        return path; // n.path.concat([next]); // Retorna caminho até o nó, contando com o de solução
                     }
                     // Caso nao seja solução, continue expandindo
-                    this.expandedTotal++;
-                    if(n.path.findIndex(item => this.arrayIsEqual(item, next)) === -1) { // Se não é estado repetido
+                    if(!(hash(next) in closed)) { // Se não é estado repetido
+                        this.expandedTotal++;
                         // Adiciona à fila
                         open.add({
                             state: next,
-                            path: n.path.concat([next])
+                            parent: n.state
                         });
                     }
+                    closed[hash(n.state)] = n;
                 }
-                // Fecha nó atual. Lista de fechado não tem utilidade, dado que temos o caminho na iteração
-                closed.push(n);
             }
         }
     }
