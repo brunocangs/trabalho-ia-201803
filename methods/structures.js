@@ -56,11 +56,18 @@ class OrderedArray extends Array {
     }
     push(...items) {
         for (let item of items) {
+            if(this.length === 0) {
+                this[0] = item;
+                continue;
+            }
             let index = -1;
             while(this.method(this[++index], item));
             this.splice(index, 0, item);
         }
         return this.length;
+    }
+    remove() {
+        return this.shift();
     }
 }
 
