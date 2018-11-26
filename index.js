@@ -27,30 +27,34 @@ const solutionSwapAll = (array) => {
     return true;
 };
 
-// const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
-// a.exec();
-// console.log(a.stats);
+const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
+a.exec();
+console.log(a.stats);
 
-// const b = new Methods.Backtracking(7, solutionSwapAll);
-// b.exec();
-// console.log(b.stats);
+const b = new Methods.Backtracking(7, solutionSwapAll);
+b.exec();
+console.log(b.stats);
 
-// const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
-// c.exec();
-// console.log(c.stats);
+const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
+c.exec();
+console.log(c.stats);
 
-// const d = new Methods.DepthSearch(7, solutionSwapAll);
-// d.exec();
-// console.log(d.stats);
+const d = new Methods.DepthSearch(7, solutionSwapAll);
+d.exec();
+console.log(d.stats);
 
-// const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
-// e.exec();
-// console.log(e.stats);
+const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
+e.exec();
+console.log(e.stats);
 
-// const f = new Methods.WidthSearch(7, solutionSwapAll);
-// f.exec();
-// console.log(f.stats);
+const f = new Methods.WidthSearch(7, solutionSwapAll);
+f.exec();
+console.log(f.stats);
 
 const g = new Methods.OrderedSearch(7, solutionWhiteBetweenBlack);
 g.exec();
 console.log(g.stats);
+
+const h = new Methods.OrderedSearch(7, solutionSwapAll);
+h.exec();
+console.log(h.stats);
