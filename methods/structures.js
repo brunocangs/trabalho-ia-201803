@@ -69,6 +69,9 @@ class OrderedArray extends Array {
     remove() {
         return this.shift();
     }
+    get isEmpty() {
+        return this.length === 0;
+    }
 }
 
 export {Queue, Pile, OrderedArray};

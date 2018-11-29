@@ -6,7 +6,8 @@ class WidthSearch extends Method {
         const start = new Date();
         this.path = this.doSearch();
         this.time = new Date() - start;
-        this.cost = this.depth = (this.path || []).length;
+        this.depth = (this.path || []).length;
+        this.cost = this.depth - 1;
     }
     doSearch() {
         const hash = JSON.stringify;
@@ -34,7 +35,7 @@ class WidthSearch extends Method {
                         let parent = n.state;
                         let path = [parent, next];
                         parent = n.parent;
-                        while(parent) {
+                        while(parent) { // Reitera pela lista de fechados para montar o caminho
                             const found = closed[hash(parent)];
                             path.unshift(found.state);
                             parent = found.parent;

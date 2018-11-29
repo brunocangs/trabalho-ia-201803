@@ -39,7 +39,7 @@ class OrderedSearch extends Method {
                         let parent = n.state;
                         let path = [parent, next];
                         parent = n.parent;
-                        while(parent) {
+                        while(parent) { // Volta pela lista de fechados achando o caminho
                             const found = closed[hash(parent)];
                             path.unshift(found.state);
                             parent = found.parent;
