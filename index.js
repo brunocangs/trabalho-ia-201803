@@ -48,58 +48,58 @@ const heuristicsSwapAll = (array) => {
     return quant;
 };
 
-// const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
-// a.exec();
-// console.log(a.stats);
+const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
+a.exec();
+console.log('Backtracking', a.stats);
 
-// const b = new Methods.Backtracking(7, solutionSwapAll);
-// b.exec();
-// console.log(b.stats);
+const b = new Methods.Backtracking(7, solutionSwapAll);
+b.exec();
+console.log('Backtracking', b.stats);
 
-// const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
-// c.exec();
-// console.log(c.stats);
+const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
+c.exec();
+console.log('DepthSearch', c.stats);
 
-// const d = new Methods.DepthSearch(7, solutionSwapAll);
-// d.exec();
-// console.log(d.stats);
+const d = new Methods.DepthSearch(7, solutionSwapAll);
+d.exec();
+console.log('DepthSearch', d.stats);
 
-// const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
-// e.exec();
-// console.log(e.stats);
+const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
+e.exec();
+console.log('WidthSearch', e.stats);
 
-// const f = new Methods.WidthSearch(7, solutionSwapAll);
-// f.exec();
-// console.log(f.stats);
+const f = new Methods.WidthSearch(7, solutionSwapAll);
+f.exec();
+console.log('WidthSearch', f.stats);
 
-// const g = new Methods.OrderedSearch(7, solutionWhiteBetweenBlack);
-// g.exec();
-// console.log(g.stats);
+const g = new Methods.OrderedSearch(7, solutionWhiteBetweenBlack);
+g.exec();
+console.log('OrderedSearch', g.stats);
 
-// const h = new Methods.OrderedSearch(7, solutionSwapAll);
-// h.exec();
-// console.log(h.stats);
+const h = new Methods.OrderedSearch(7, solutionSwapAll);
+h.exec();
+console.log('OrderedSearch', h.stats);
 
-// const i = new Methods.GreedySearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-// i.exec();
-// console.log(i.stats);
+const i = new Methods.GreedySearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
+i.exec();
+console.log('GreedySearch', i.stats);
 
-// const j = new Methods.GreedySearch(7, solutionSwapAll, heuristicsSwapAll);
-// j.exec();
-// console.log(j.stats);
+const j = new Methods.GreedySearch(7, solutionSwapAll, heuristicsSwapAll);
+j.exec();
+console.log('GreedySearch', j.stats);
 
-// const k = new Methods.AStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-// k.exec();
-// console.log(k.stats);
+const k = new Methods.AStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
+k.exec();
+console.log('AStarSearch', k.stats);
 
-// const l = new Methods.AStarSearch(7, solutionSwapAll, heuristicsSwapAll);
-// l.exec();
-// console.log(l.stats);
+const l = new Methods.AStarSearch(7, solutionSwapAll, heuristicsSwapAll);
+l.exec();
+console.log('AStarSearch', l.stats);
 
-// const m = new Methods.IDAStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-// m.exec();
-// console.log(m.stats);
+const m = new Methods.IDAStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
+m.exec();
+console.log('IDAStarSearch', m.stats);
 
-const n = new Methods.IDAStarSearch(17, solutionSwapAll, heuristicsSwapAll);
+const n = new Methods.IDAStarSearch(7, solutionSwapAll, heuristicsSwapAll);
 n.exec();
-console.log(n.stats);
+console.log('IDAStarSearch', n.stats);
