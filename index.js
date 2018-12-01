@@ -100,6 +100,6 @@ const heuristicsSwapAll = (array) => {
 // m.exec();
 // console.log(m.stats);
 
-const n = new Methods.IDAStarSearch(7, solutionSwapAll, heuristicsSwapAll);
+const n = new Methods.IDAStarSearch(17, solutionSwapAll, heuristicsSwapAll);
 n.exec();
 console.log(n.stats);

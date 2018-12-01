@@ -1,65 +1,88 @@
-import {OrderedArray} from './structures';
+import {OrderedArray, Pile} from './structures';
 import Heuristics from './heuristics';
-
+import clone from 'lodash';
 class IDAStarSearch extends Heuristics {
-    f (n) {
-        return n.total + this.heuristics(n.state);
+    successors (node) {
+        let successors = new OrderedArray((a, b) => a && b && this.heuristics(a) > this.heuristics(b));
+        const nullPosition = node.indexOf(null);
+        for (let index in node) {
+            if (nullPosition.toString() !== index.toString()) {
+                successors.push(
+                    this.swap(node, index, nullPosition)
+                );
+            }
+        }
+        return successors;
+    }
+    distance (start, end) {
+        const nullStart = start.indexOf(null);
+        const nullEnd = end.indexOf(null);
+        const dist = Math.abs(nullEnd - nullStart) - 1 || 1;
+        return dist;
     }
     exec () {
         const start = new Date();
-        const {path, cost} = this.doSearch();
+        this.doSearch();
         this.time = new Date() - start;
-
+        this.depth = (this.path || []).length - 1;
     }
     doSearch () {
-        let open, success, closed, discarted, patamar, patamarOld, hash, start;
-        start = this.array;
-        success = false;
-        hash = JSON.stringify;
-        open = new OrderedArray((a, b) => a && b && this.f(a) < this.f(b));
-        discarted = new OrderedArray((a, b) => a && b && this.f(a) < this.f(b));
-        closed = {}
-        open.push({
-            state: start,
-            parent: undefined,
-            total: 0
-        });
-        patamar = this.f({state: this.array, total: 0});
-        patamarOld = -1;
-        debugger;
-        while (!open.isEmpty && patamar !== patamarOld && !success) {
-            let top = open.remove();
-            if (this.isSolved(top.state)) {
-                success = top.state;
-            } else {
-                if (this.f(top) > patamar) {
-                    discarted.push(top);
+        const hash = JSON.stringify;
+        let open = new Pile();
+        let closed = {};
+        const start = this.array;
+        let bound = this.heuristics(start);
+        let success = false, fail = false;
+        while (!success && !fail) {
+            let min = Infinity;
+            closed = {};
+            open.add({
+                state: start,
+                parent: undefined,
+                total: 0
+            });
+            while (!open.isEmpty) {
+                const node = open.remove();
+                this.visitedTotal++;
+                const f = node.total + this.heuristics(node.state);
+                if (f > bound) {
+                    min = f < min ? f : min;
+                } else if (this.isSolved(node.state)) {
+                    closed.solution = hash(node.state);
+                    success = true;
+                    open = new Pile();
+                } else {
+                    for (let successor of this.successors(node.state)) {
+                        if (!(hash(successor) in closed)) {
+                            this.expandedTotal++;
+                            open.add({
+                                state: successor,
+                                parent: hash(node.state),
+                                total: node.total + this.distance(successor, node.state)
+                            });
+                        }
+                    }
                 }
-                const nullPosition = top.state.indexOf(null);
-                for (let index in top.state) {
-                    if (top.state[index] === nullPosition) continue;
-                    const next = this.swap(top.state, nullPosition, index);
-                    if (hash(next) in closed) continue;
-                    const distance = Math.abs(index - nullPosition) - 1 || 1; // Calcula a distancia para saltos. Se for movimento normal, distancia é 1
-                    open.push({
-                        state: next,
-                        parent: hash(top.state),
-                        total: top.total + distance
-                    });
-                }
-                closed[hash(top.state)] = top;
+                closed[hash(node.state)] = node;
             }
-            if (open.isEmpty) {
-                patamarOld = patamar;
-                patamar = discarted.reduce((prev, item) => {
-                    if (item < prev) return item;
-                    return prev;
-                }, Number.MAX_SAFE_INTEGER);
-                open = discarted;
-                discarted = new OrderedArray((a, b) => a && b && this.f(a) < this.f(b));
-            }
+            bound = min;
+            if (bound === Infinity) fail = true;
         }
-        return {path: success};
+        if (success) {
+            const solution = closed.solution;
+            let current = closed[solution];
+            this.cost = current.total;
+            let path = [];
+            debugger;
+            while (current.parent) {
+                path.unshift(current.state);
+                current = closed[current.parent];
+            }
+            path.unshift(current.state);
+            this.path = path;
+        } else {
+            console.log(fail);
+        }
     }
 }
 

@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 class Queue {
     constructor(array) {
         this.array = array || [];
@@ -43,6 +45,11 @@ class Pile {
     }
     get isEmpty () {
         return this.array.length === 0;
+    }
+    clone () {
+        const pile = new Pile();
+        pile.array = lodash.clone(this.array);
+        return pile;
     }
 }
 
