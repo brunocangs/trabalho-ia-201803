@@ -7,6 +7,7 @@ class AStarSearch extends Heuristics {
         const {path, cost} = this.doSearch();
         this.path = path;
         this.cost = cost;
+        this.depth = path.length;
         this.time = new Date() - start;
     }
     doSearch() {

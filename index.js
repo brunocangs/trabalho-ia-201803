@@ -1,7 +1,16 @@
 process._debugProcess(process.pid);
 import * as Methods from './methods';
-import {OrderedArray} from './methods/structures';
+import fs from 'fs';
+import csv from 'fast-csv';
 
+var csvStream = csv.createWriteStream({headers: true, delimiter: ';'});
+let writableStream = fs.createWriteStream('stats.csv');
+writableStream.on('finish', function () {
+    console.log('DONE!');
+});
+csvStream.pipe(writableStream);
+// const csvStream = csv.createWriteStream({headers: true}).pipe(ws);
+// const ws = fs.createWriteStream('stats.csv');
 // 0 => Bolinha brancas
 // 1 => Bolinha preta
 // null => espaço vazio
@@ -20,9 +29,9 @@ const solutionWhiteBetweenBlack = (array) => {
 const heuristicsWhiteBetweenBlack = (array) => {
     let quant = 0;
     let i = -1;
-    while(array[++i] != 1) if(array[i] !== null) quant++;
+    while (array[++i] != 1) if (array[i] !== null) quant++;
     i = array.length;
-    while(array[--i] !== 1) if(array[i] !== null) quant++;
+    while (array[--i] !== 1) if (array[i] !== null) quant++;
     return quant;
 };
 
@@ -40,66 +49,32 @@ const heuristicsSwapAll = (array) => {
     let quant = 0;
     let index = -1;
     const half = Math.floor(array.length / 2);
-    while(array[++index] !== undefined) {
+    while (array[++index] !== undefined) {
         if (index < half && array[index] !== 1) quant++;
         if (index > half && array[index] !== 0) quant++;
         if (index === half && array[index] !== null) quant++;
-    } 
+    }
     return quant;
 };
 
-const a = new Methods.Backtracking(7, solutionWhiteBetweenBlack);
-a.exec();
-console.log('Backtracking', a.stats);
+const solutions = [solutionWhiteBetweenBlack, solutionSwapAll];
+const heristics = [heuristicsWhiteBetweenBlack, heuristicsSwapAll];
 
-const b = new Methods.Backtracking(7, solutionSwapAll);
-b.exec();
-console.log('Backtracking', b.stats);
+let stats = [];
 
-const c = new Methods.DepthSearch(7, solutionWhiteBetweenBlack);
-c.exec();
-console.log('DepthSearch', c.stats);
+for (let size = 2; size < 5; size++) {
+    for (let name in Methods) {
+        for (let i in solutions) {
+            const method = new Methods[name](size * 2 + 1, solutions[i], heristics[i]);
+            method.exec();
+            csvStream.write({
+                name, 
+                size: size*2+1, 
+                solution: i === '0' ? 'Brancas entre pretas' : 'Inverter posição',
+                ...method.stats
+            });
+        }
+    }
+}
 
-const d = new Methods.DepthSearch(7, solutionSwapAll);
-d.exec();
-console.log('DepthSearch', d.stats);
-
-const e = new Methods.WidthSearch(7, solutionWhiteBetweenBlack);
-e.exec();
-console.log('WidthSearch', e.stats);
-
-const f = new Methods.WidthSearch(7, solutionSwapAll);
-f.exec();
-console.log('WidthSearch', f.stats);
-
-const g = new Methods.OrderedSearch(7, solutionWhiteBetweenBlack);
-g.exec();
-console.log('OrderedSearch', g.stats);
-
-const h = new Methods.OrderedSearch(7, solutionSwapAll);
-h.exec();
-console.log('OrderedSearch', h.stats);
-
-const i = new Methods.GreedySearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-i.exec();
-console.log('GreedySearch', i.stats);
-
-const j = new Methods.GreedySearch(7, solutionSwapAll, heuristicsSwapAll);
-j.exec();
-console.log('GreedySearch', j.stats);
-
-const k = new Methods.AStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-k.exec();
-console.log('AStarSearch', k.stats);
-
-const l = new Methods.AStarSearch(7, solutionSwapAll, heuristicsSwapAll);
-l.exec();
-console.log('AStarSearch', l.stats);
-
-const m = new Methods.IDAStarSearch(7, solutionWhiteBetweenBlack, heuristicsWhiteBetweenBlack);
-m.exec();
-console.log('IDAStarSearch', m.stats);
-
-const n = new Methods.IDAStarSearch(7, solutionSwapAll, heuristicsSwapAll);
-n.exec();
-console.log('IDAStarSearch', n.stats);
+csvStream.end();

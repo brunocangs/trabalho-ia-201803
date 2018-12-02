@@ -6,6 +6,7 @@ class GreedySearch extends Heuristics {
         const start = new Date();
         const {path, cost} = this.doSearch();
         this.path = path;
+        this.depth = path.length;
         this.cost = cost;
         this.time = new Date() - start;
     }

@@ -46,7 +46,10 @@ export default class Method {
             visitedTotal: this.visitedTotal,
             expandedTotal: this.expandedTotal,
             depth: this.depth,
-            path: this.path
+            path: this.path.map(item => {
+                item[item.indexOf(null)] = 'V';
+                return item.join();
+            }).join(' => ')
         };
     }
     swap (array, posA, posB) {
