@@ -12,7 +12,8 @@ class OrderedSearch extends Method {
     }
     doSearch() {
         const hash = JSON.stringify;
-        const open = new OrderedArray((a,b) => a && b && a.total - b.total);
+        const open = new OrderedArray((a,b) => a && b && a.total - b.total); // Lista ordenada pelo peso do caminho atual
+        // Resulta no algoritmo de busca ordenada
         const closed = {};
         const start = this.array;
         open.push({
@@ -44,7 +45,7 @@ class OrderedSearch extends Method {
                             path.unshift(found.state);
                             parent = found.parent;
                         }
-                        return {path, cost: n.total + distance};
+                        return {path, cost: n.total + distance}; // Retorna tupla de caminho e custo
                     }
                     // Caso nao seja solução, continue expandindo
                     if(!(hash(next) in closed)) { // Se não é estado repetido

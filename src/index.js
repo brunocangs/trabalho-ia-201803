@@ -70,7 +70,7 @@ for (let size = 2; size < 5; size++) {
             csvStream.write({
                 name, 
                 size: size*2+1, 
-                solution: i === '0' ? 'Brancas entre pretas' : 'Inverter posição',
+                solution: i === '0' ? 'Brancas entre pretas' : 'Inverter posicao',
                 ...method.stats
             });
         }

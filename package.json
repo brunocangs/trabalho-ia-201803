@@ -4,7 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "nodemon --exec \"babel-node index.js\"",
+        "start": "nodemon --exec \"babel-node ./src/index.js\"",
+        "build": "babel src/ -d build/",
         "inspect": "nodemon --exec \"babel-node index.js --inspect-brk\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -12,11 +13,15 @@
     "author": "",
     "license": "ISC",
     "devDependencies": {
-        "nodemon": "^1.18.4",
+        "@babel/cli": "^7.2.0",
         "@babel/core": "^7.1.2",
         "@babel/node": "^7.0.0",
         "@babel/preset-env": "^7.1.0",
-        "eslint": "^5.7.0"
+        "babel-loader": "^8.0.4",
+        "eslint": "^5.7.0",
+        "nodemon": "^1.18.4",
+        "webpack": "^4.27.1",
+        "webpack-node-externals": "^1.7.2"
     },
     "dependencies": {
         "@babel/plugin-proposal-class-properties": "^7.1.0",

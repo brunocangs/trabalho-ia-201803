@@ -12,7 +12,7 @@ class AStarSearch extends Heuristics {
     }
     doSearch() {
         const hash = JSON.stringify;
-        const open = new OrderedArray((a,b) => a && b && a.total + this.heuristics(a.state) < b.total + this.heuristics(b.state)); // Ordena pela distancia até agora mais a heuristica (A*)
+        const open = new OrderedArray((a,b) => a && b && a.total + this.heuristics(a.state) > b.total + this.heuristics(b.state)); // Ordena pela distancia até agora mais a heuristica (A*)
         const closed = {};
         const start = this.array;
         open.push({

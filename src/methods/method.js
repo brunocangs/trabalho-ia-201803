@@ -39,6 +39,14 @@ export default class Method {
         }
         return false;
     }
+    swap (array, posA, posB) {
+        if (array[posA] === undefined || array[posB] === undefined) return array;
+        let nArray = clone(array);
+        const aux = nArray[posA];
+        nArray[posA] = nArray[posB];
+        nArray[posB] = aux;
+        return nArray;
+    }
     get stats () {
         return {
             time: this.time,
@@ -51,13 +59,5 @@ export default class Method {
                 return item.join();
             }).join(' => ')
         };
-    }
-    swap (array, posA, posB) {
-        if (array[posA] === undefined || array[posB] === undefined) return array;
-        let nArray = clone(array);
-        const aux = nArray[posA];
-        nArray[posA] = nArray[posB];
-        nArray[posB] = aux;
-        return nArray;
     }
 }
