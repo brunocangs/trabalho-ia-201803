@@ -6,7 +6,7 @@
     "scripts": {
         "start": "nodemon --exec \"babel-node ./src/index.js\"",
         "build": "babel src/ -d build/",
-        "package": "npm run build && nexe ./build/index.js --output trabalho.exe",
+        "package": "npm run build && pkg ./build/index.js",
         "inspect": "nodemon --exec \"babel-node index.js --inspect-brk\"",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
@@ -20,8 +20,8 @@
         "@babel/preset-env": "^7.1.0",
         "babel-loader": "^8.0.4",
         "eslint": "^5.7.0",
-        "nexe": "^2.0.0-rc.34",
         "nodemon": "^1.18.4",
+        "pkg": "^4.3.5",
         "webpack": "^4.27.1",
         "webpack-node-externals": "^1.7.2"
     },
