@@ -1,4 +1,3 @@
-process._debugProcess(process.pid);
 import * as Methods from './methods';
 import fs from 'fs';
 import csv from 'fast-csv';
